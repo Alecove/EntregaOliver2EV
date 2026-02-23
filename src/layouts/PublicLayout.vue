@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { useTheme } from 'vuetify'
 
 const { locale } = useI18n()
+const theme = useTheme()
 
 function toggleLanguage() {
   locale.value = locale.value === 'es' ? 'en' : 'es'
+}
+
+function toggleTheme() {
+  theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
 </script>
 
@@ -13,6 +19,10 @@ function toggleLanguage() {
     <v-app-bar-title>{{ $t('welcome') }}</v-app-bar-title>
     <v-spacer></v-spacer>
     
+    <v-btn icon @click="toggleTheme" class="mr-2">
+      <v-icon>{{ theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
+    </v-btn>
+
     <v-btn variant="tonal" class="mr-2" @click="toggleLanguage">
       {{ locale === 'es' ? 'English' : 'Español' }}
     </v-btn>
