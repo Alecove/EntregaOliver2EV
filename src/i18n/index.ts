@@ -2,40 +2,38 @@ import { createI18n } from 'vue-i18n'
 
 const messages = {
   es: {
-    // General y Header
-    welcome: 'Bienvenido a la App de Tareas',
+    welcome: 'Gestor de Inventario',
     login: 'Iniciar Sesión',
     logout: 'Cerrar Sesión',
     admin: 'Panel de Administración',
-    tasks: 'Gestión de Tareas',
-    categories: 'Categorías',
+    tasks: 'Catálogo de Productos',
+    categories: 'Familias / Categorías',
     
     // Contenido de la Home
-    home_title: 'Página Principal Pública',
-    home_description: 'Bienvenido a tu gestor de tareas profesional desarrollado con Vue 3 y Vuetify.',
-    go_to_login: 'Ir al Login'
+    home_title: 'Tu Tienda en Línea',
+    home_description: 'Bienvenido a tu sistema de gestión de stock profesional desarrollado con Vue 3 y Vuetify.',
+    adminDesc: 'Gestiona el stock, los precios y el catálogo de tu tienda.'
   },
   en: {
-    // General and Header
-    welcome: 'Welcome to the Tasks App',
+    welcome: 'Inventory Manager',
     login: 'Login',
     logout: 'Logout',
-    admin: 'Admin Panel',
-    tasks: 'Task Management',
-    categories: 'Categories',
+    admin: 'Admin Dashboard',
+    tasks: 'Product Catalog',
+    categories: 'Categories / Families',
     
-    // Home Content
-    home_title: 'Public Home Page',
-    home_description: 'Welcome to your professional task manager developed with Vue 3 and Vuetify.',
-    go_to_login: 'Go to Login'
+    // Contenido de la Home
+    home_title: 'Your Online Store',
+    home_description: 'Welcome to your professional stock management system built with Vue 3 and Vuetify.',
+    adminDesc: 'Manage your store stock, prices, and catalog.'
   }
 }
 
 const i18n = createI18n({
-  legacy: false, // Obligatorio para Vue 3
-  locale: 'es',   // Idioma por defecto
-  fallbackLocale: 'en', // Idioma de reserva
-  messages,
+  legacy: false, // Necesario para Vue 3 Composition API
+  locale: 'es',  // Idioma por defecto
+  fallbackLocale: 'en',
+  messages
 })
 
 export default i18n
