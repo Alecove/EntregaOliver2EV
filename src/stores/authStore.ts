@@ -1,23 +1,23 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
-export const useAuthStore = defineStore('auth', () => {
-  const isLogged = ref(false)
-  const userRole = ref<'admin' | 'editor' | null>(null) // Guardamos el rol
-  const router = useRouter()
-
-  function login(role: 'admin' | 'editor') {
-    isLogged.value = true
-    userRole.value = role // Asignamos el rol al entrar
-    router.push('/admin')
+export const useAuthStore = defineStore('authStore', {
+  state: () => ({
+    isLogged: false,
+    userRole: '' as 'admin' | 'user' | ''
+  }),
+  actions: {
+    login(email: string, pass: string) {
+      // Simulación de login para el profesor
+      if (email === 'admin@admin.com' && pass === 'admin') {
+        this.isLogged = true
+        this.userRole = 'admin' // Esto activa el botón de estadísticas
+        return true
+      }
+      return false
+    },
+    logout() {
+      this.isLogged = false
+      this.userRole = ''
+    }
   }
-
-  function logout() {
-    isLogged.value = false
-    userRole.value = null
-    router.push('/login')
-  }
-
-  return { isLogged, userRole, login, logout }
 })

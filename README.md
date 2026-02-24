@@ -38,3 +38,8 @@ El proyecto está completamente dockerizado para facilitar su evaluación:
 1. **Construir el contenedor**: `docker compose build`
 2. **Arrancar la aplicación**: `docker compose up -d`
 3. **Acceso**: La aplicación estará disponible en `http://localhost:8080`
+
+
+
+Administrador admin@admin.com admin Gestión total y Estadísticas
+ Usuario user@user.com  user Modo lectura (Solo vista)

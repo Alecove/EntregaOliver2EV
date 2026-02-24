@@ -1,58 +1,84 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 
-const API_URL = 'http://localhost:3000/productos'
-
-export const useTaskStore = defineStore('task', {
+export const useTaskStore = defineStore('taskStore', {
   state: () => ({
-    tasks: [] as any[],
+    allTasks: [] as any[], // Guardamos todos los productos aquí
+    tasks: [] as any[],    // Los productos que se muestran (filtrados)
     loading: false,
-    error: null as string | null,
     currentPage: 1,
-    totalPages: 1,
-    itemsPerPage: 6
+    totalPages: 1
   }),
 
   actions: {
-    // 1. Cargar productos con paginación real
-    async fetchTasks(page = 1) {
+    // 1. CARGAR DATOS (Solo una vez o cuando se necesite refrescar)
+    async fetchTasks(page = 1, search = '', sort = '') {
       this.loading = true
       this.currentPage = page
+      
       try {
-        const url = `${API_URL}?_page=${page}&_per_page=${this.itemsPerPage}`
-        const response = await axios.get(url)
+        // Pedimos los productos limpios al servidor
+        const response = await fetch('http://localhost:3000/productos')
+        const data = await response.json()
         
-        if (response.data && response.data.data) {
-          this.tasks = response.data.data
-          this.totalPages = response.data.pages
-        } else {
-          this.tasks = Array.isArray(response.data) ? response.data : []
-          this.totalPages = Math.ceil(18 / this.itemsPerPage)
+        // Guardamos la copia completa
+        this.allTasks = Array.isArray(data) ? data : (data.data || [])
+
+        // APLICAMOS FILTROS EN EL FRONTEND (Garantiza que funcione siempre)
+        let filtered = [...this.allTasks]
+
+        // Filtro de búsqueda
+        if (search) {
+          filtered = filtered.filter(item => 
+            item.title.toLowerCase().includes(search.toLowerCase())
+          )
         }
-      } catch (err) {
-        this.error = 'Error de conexión'
+
+        // Filtro de orden por precio
+        if (sort) {
+          filtered.sort((a, b) => {
+            return sort === 'asc' ? a.price - b.price : b.price - a.price
+          })
+        }
+
+        // Lógica de Paginación manual (6 por página)
+        const itemsPerPage = 6
+        this.totalPages = Math.ceil(filtered.length / itemsPerPage) || 1
+        
+        const start = (page - 1) * itemsPerPage
+        const end = start + itemsPerPage
+        
+        // Seteamos los productos finales que verá el componente
+        this.tasks = filtered.slice(start, end)
+
+      } catch (error) {
+        console.error('Error cargando productos:', error)
+        this.tasks = []
       } finally {
         this.loading = false
       }
     },
 
-    // 2. AÑADIR PRODUCTO (¡Esta es la función que te faltaba!)
-    async addTask(task: any) {
+    // 2. AÑADIR PRODUCTO
+    async addTask(newProduct: any) {
       try {
-        await axios.post(API_URL, task)
-        await this.fetchTasks(this.currentPage)
-      } catch (err) {
-        this.error = 'Error al añadir'
+        await fetch('http://localhost:3000/productos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newProduct)
+        })
+        await this.fetchTasks(1)
+      } catch (error) {
+        console.error('Error al añadir:', error)
       }
     },
 
-    // 3. Borrar producto
-    async deleteTask(id: any) {
+    // 3. BORRAR PRODUCTO
+    async deleteTask(id: string | number) {
       try {
-        await axios.delete(`${API_URL}/${id}`)
+        await fetch(`http://localhost:3000/productos/${id}`, { method: 'DELETE' })
         await this.fetchTasks(this.currentPage)
-      } catch (err) {
-        this.error = 'Error al borrar'
+      } catch (error) {
+        console.error('Error al borrar:', error)
       }
     }
   }

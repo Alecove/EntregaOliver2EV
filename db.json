@@ -5,119 +5,128 @@
       "title": "Monitor Samsung 27 4K",
       "price": 299.99,
       "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400",
-      "completed": true
+      "completed": true,
+      "description": "Monitor de 27 pulgadas con resolución 4K UHD. Panel IPS con colores vibrantes, ideal para diseño gráfico, edición de vídeo y gaming a 60Hz con un nivel de detalle espectacular."
     },
     {
       "id": "2",
       "title": "Teclado Mecanico RGB",
       "price": 89.5,
       "image": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=400",
-      "completed": true
-    },
-    {
-      "id": "3",
-      "title": "Raton Gaming Pro",
-      "price": 59.9,
-      "image": "https://www.elcorteingles.es/electronica/A48657274-raton-gaming-inalambrico-razer-cobra-pro-negro/",
-      "completed": true
-    },
-    {
-      "id": "4",
-      "title": "Auriculares Sony WH",
-      "price": 150,
-      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
-      "completed": false
+      "completed": true,
+      "description": "Teclado mecánico con switches rojos (red) para una escritura rápida, fluida y silenciosa. Cuenta con iluminación RGB totalmente personalizable tecla a tecla."
     },
     {
       "id": "5",
       "title": "Silla Ergonómica Black",
       "price": 199,
-      "image": "https://images.unsplash.com/photo-1592078615290-033ee584e267?w=400",
-      "completed": true
+      "image": "https://www.ofisillas.es/images/product/1/large/pl_1_1_11422.jpg",
+      "completed": true,
+      "description": "Silla de oficina premium con soporte lumbar ajustable, reposabrazos 3D y tejido de malla transpirable. Diseñada para mantener una postura perfecta durante largas jornadas de trabajo."
     },
     {
       "id": "6",
-      "title": "Disco SSD 2TB",
+      "title": "Disco WD Blue",
       "price": 65,
-      "image": "https://www.dynos.es/disco-duro-interno-solido-ssd-intenso-top-performance-2tb-25-sata3__DYD0000029686?srsltid=AfmBOoolXFBqlFb2rqa37xCar7R15TpdrCWwGCSgf7pn10s3qaPDny6a",
-      "completed": true
+      "image": "https://www.asusbymacman.es/40929-large_default/western-digital-blue-2tb-wd20ezrz-disco-duro-hdd.jpg",
+      "completed": true,
+      "description": "Disco duro interno de 2TB de capacidad a 7200 RPM. Fiabilidad comprobada para almacenamiento masivo de datos, instalación de juegos pesados y copias de seguridad seguras."
     },
     {
       "id": "7",
       "title": "Memoria RAM 16GB",
       "price": 45.99,
       "image": "https://images.unsplash.com/photo-1541029071515-84cc54f84dc5?w=400",
-      "completed": true
+      "completed": true,
+      "description": "Módulo de memoria RAM DDR4 de 16GB a 3200MHz. Dale una segunda vida a tu equipo, mejora el rendimiento multitarea al instante y reduce los tiempos de carga."
     },
     {
       "id": "8",
-      "title": "Webcam Stream 1080p",
+      "title": "Webcam Logitech C922",
       "price": 75,
-      "image": "https://www.amazon.es/Streaming-Computadora-Micr%C3%B3fono-Radiodifusi%C3%B3n-Compatible/dp/B07NS3NQVT",
-      "completed": false
+      "image": "https://cdn.media-concept.com/images/logitech/800/logitech-c-mara-web-hd-c922-pro-negro-29489.png",
+      "completed": false,
+      "description": "Cámara web optimizada para streaming en Twitch o YouTube en resolución Full HD 1080p a 30fps o 720p a 60fps. Incluye trípode de escritorio y enfoque automático rápido."
     },
     {
       "id": "9",
       "title": "Microfono Pro USB",
       "price": 110,
       "image": "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=400",
-      "completed": true
+      "completed": true,
+      "description": "Micrófono de condensador profesional con conexión USB directa (Plug & Play) y patrón polar cardioide. Captura tu voz de forma cálida y nítida, aislando el ruido de fondo."
     },
     {
       "id": "10",
-      "title": "Cable HDMI 2.1",
+      "title": "Cable HDMI StarTech",
       "price": 12.5,
-      "image": "https://www.pccomponentes.com/pccom-essential-cable-hdmi-21-30awg-8k-ccs-60hz-2m?srsltid=AfmBOooTsCbALSnLticWtH5Y5CheVQQxg3XAEY99c0zAFlFpsXaM3r_N",
-      "completed": true
+      "image": "https://media.startech.com/cms/products/gallery_large/hdmmx.main.jpg",
+      "completed": true,
+      "description": "Cable HDMI 2.1 trenzado de ultra alta velocidad. Soporta resoluciones impresionantes de 8K a 60Hz y 4K a 120Hz, ideal para consolas de nueva generación y monitores premium."
     },
     {
       "id": "11",
       "title": "Cargador MagSafe",
       "price": 25,
       "image": "https://images.unsplash.com/photo-1615526675159-e248c3021d3f?w=400",
-      "completed": true
+      "completed": true,
+      "description": "Cargador inalámbrico magnético de carga rápida. Sus imanes se alinean a la perfección con la parte trasera de tu dispositivo para garantizar una recarga eficiente y segura."
     },
     {
       "id": "12",
       "title": "Funda Cuero iPhone",
       "price": 18.9,
       "image": "https://images.unsplash.com/photo-1603313011101-320f26a4f6f6?w=400",
-      "completed": true
+      "completed": true,
+      "description": "Funda fabricada en cuero europeo curtido con un tacto increíblemente suave. Protege tu dispositivo contra caídas y arañazos cotidianos sin añadir apenas grosor."
     },
     {
       "id": "13",
       "title": "Powerbank 20k mAh",
       "price": 30,
       "image": "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=400",
-      "completed": false
+      "completed": false,
+      "description": "Batería externa portátil de 20.000 mAh equipada con tecnología de carga rápida. Capacidad suficiente para recargar completamente tu smartphone hasta 4 veces en un solo viaje."
     },
     {
       "id": "14",
-      "title": "Soporte Brazo Monitor",
+      "title": "Soporte Ergotron LX",
       "price": 40,
-      "image": "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=400",
-      "completed": true
+      "image": "https://media.ergotron.com/reserved/parts/45-241-026-a-orig.jpg",
+      "completed": true,
+      "description": "Robusto brazo articulado de aluminio para tu monitor. Libera espacio valioso en tu escritorio y permite ajustar la pantalla en altura, inclinación y rotación sin esfuerzo."
     },
     {
       "id": "15",
-      "title": "Router AX6000",
+      "title": "Router TP-Link AX6000",
       "price": 130,
-      "image": "https://www.asus.com/es/networking-iot-servers/wifi-routers/asus-gaming-routers/tuf-gaming-ax6000/",
-      "completed": true
+      "image": "https://static.casadomo.com/media/2018/12/tplink-router-ax-6000.png",
+      "completed": true,
+      "description": "Potente Router Wi-Fi 6 de doble banda. Ofrece velocidades de conexión ultrarrápidas y sus múltiples antenas direccionales aseguran cobertura estable en todos los rincones de tu casa."
     },
     {
       "id": "16",
       "title": "Altavoces Z407",
       "price": 99,
       "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400",
-      "completed": true
+      "completed": true,
+      "description": "Sistema de altavoces multimedia 2.1 con subwoofer independiente y mando inalámbrico. Disfruta de un sonido envolvente, cristalino y unos graves profundos que harán vibrar tu escritorio."
     },
     {
       "id": "17",
-      "title": "Foco LED Video",
+      "title": "Foco LED Ci-Fotto",
       "price": 55,
-      "image": "https://www.amazon.es/Andoer-Regulable-2500K-9000K-Fotograf%C3%ADa-Alimentado/dp/B0CHFJHRMF",
-      "completed": true
+      "image": "https://m.media-amazon.com/images/I/71vXkQ3bCiL._AC_SX679_.jpg",
+      "completed": true,
+      "description": "Panel de luz LED compacto y regulable, perfecto para creadores de contenido. Ajusta el brillo y la temperatura de color desde luz cálida a fría para iluminar tus vídeos de forma profesional."
+    },
+    {
+      "id": "18",
+      "title": "Mando Xbox Series",
+      "price": 59.9,
+      "image": "https://images.unsplash.com/photo-1605901309584-818e25960a8f?w=400",
+      "completed": true,
+      "description": "El mando inalámbrico definitivo. Cuenta con un diseño ergonómico modernizado, gatillos con agarre texturizado antideslizante y botón Share. Compatible con consola, PC y móvil."
     }
   ]
 }

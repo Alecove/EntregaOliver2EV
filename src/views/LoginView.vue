@@ -1,103 +1,61 @@
 <script setup lang="ts">
-import BlankLayout from '@/layouts/BlankLayout.vue'
-import { useForm, useField } from 'vee-validate'
-import * as yup from 'yup'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 
-const auth = useAuthStore()
+const authStore = useAuthStore()
+const router = useRouter()
 
-// 1. Definición de reglas de validación (Yup) 
-const schema = yup.object({
-  email: yup.string()
-    .email('Introduce un correo válido')
-    .required('El correo es obligatorio'),
-  password: yup.string()
-    .min(6, 'La contraseña debe tener al menos 6 caracteres')
-    .required('La contraseña es obligatoria'),
-})
+const email = ref('admin@admin.com')
+const password = ref('admin')
+const error = ref(false)
 
-// 2. Configuración del formulario con VeeValidate 
-const { handleSubmit } = useForm({
-  validationSchema: schema,
-})
-
-const { value: email, errorMessage: emailError } = useField<string>('email')
-const { value: password, errorMessage: passError } = useField<string>('password')
-
-// 3. Función de envío (Simula autenticación y asignación de roles) [cite: 2073, 2074]
-const onLogin = handleSubmit((values) => {
-  console.log('Validación correcta:', values)
+const handleLogin = () => {
+  // Llamamos a la función login de tu store
+  const success = authStore.login(email.value, password.value)
   
-  // Lógica de roles: Si el email contiene "admin", entra como administrador
-  const role = values.email.toLowerCase().includes('admin') ? 'admin' : 'editor'
-  
-  auth.login(role)
-})
+  if (success) {
+    router.push('/admin') // Si entra, vamos a gestión
+  } else {
+    error.value = true
+  }
+}
 </script>
 
 <template>
-  <BlankLayout>
-    <v-container class="fill-height d-flex justify-center align-center">
-      <v-card width="450" class="pa-8" elevation="12" rounded="lg">
-        <v-card-title class="text-h4 text-center font-weight-bold mb-6">
-          Bienvenido
-        </v-card-title>
-        
-        <v-card-subtitle class="text-center mb-8">
-          Introduce tus credenciales para acceder al panel
-        </v-card-subtitle>
+  <v-container class="fill-height d-flex justify-center align-center">
+    <v-card width="400" class="pa-8" elevation="10" rounded="xl">
+      <div class="text-center mb-6">
+        <v-icon size="64" color="primary">mdi-lock-open-outline</v-icon>
+        <h2 class="text-h4 font-weight-bold mt-2">Acceso</h2>
+      </div>
 
-        <form @submit.prevent="onLogin">
-          <v-text-field
-            v-model="email"
-            label="Email"
-            placeholder="admin@ejemplo.com"
-            :error-messages="emailError"
-            prepend-inner-icon="mdi-email-outline"
-            variant="outlined"
-            class="mb-2"
-          ></v-text-field>
+      <v-form @submit.prevent="handleLogin">
+        <v-text-field
+          v-model="email"
+          label="Usuario / Email"
+          variant="outlined"
+          prepend-inner-icon="mdi-email"
+          class="mb-2"
+        ></v-text-field>
 
-          <v-text-field
-            v-model="password"
-            label="Contraseña"
-            type="password"
-            :error-messages="passError"
-            prepend-inner-icon="mdi-lock-outline"
-            variant="outlined"
-            class="mb-4"
-          ></v-text-field>
+        <v-text-field
+          v-model="password"
+          label="Contraseña"
+          type="password"
+          variant="outlined"
+          prepend-inner-icon="mdi-key"
+          class="mb-4"
+        ></v-text-field>
 
-          <v-btn
-            type="submit"
-            color="primary"
-            block
-            size="x-large"
-            elevation="2"
-            class="text-none font-weight-bold"
-          >
-            Iniciar Sesión
-          </v-btn>
-        </form>
+        <v-alert v-if="error" type="error" variant="tonal" class="mb-4 text-caption">
+          Credenciales incorrectas. Prueba admin@admin.com / admin
+        </v-alert>
 
-        <v-divider class="my-6"></v-divider>
-
-        <v-btn to="/" variant="text" block color="grey-darken-1" class="text-none">
-          Volver a la página pública
+        <v-btn type="submit" color="primary" block size="x-large" rounded="pill">
+          ENTRAR
         </v-btn>
-        
-        <p class="text-caption text-center text-grey mt-4">
-          Tip: Usa un email con la palabra "admin" para permisos totales.
-        </p>
-      </v-card>
-    </v-container>
-  </BlankLayout>
+      </v-form>
+    </v-card>
+  </v-container>
 </template>
-
-<style scoped>
-/* Estilos opcionales para mejorar el centrado */
-.fill-height {
-  background: #f4f7f6;
-  min-height: 100vh;
-}
-</style>

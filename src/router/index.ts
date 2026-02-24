@@ -6,6 +6,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminView from '../views/AdminView.vue'
 import ProductDetailView from '../views/ProductDetailView.vue'
+import DashboardView from '../views/DashboardView.vue' // Importamos el nuevo Dashboard
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,28 +25,39 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminView,
-      meta: { requiresAuth: true } // Protegido por login
+      meta: { requiresAuth: true, role: 'admin' } // Requisito 76: Protegido por rol
     },
     {
-      // RUTA: Ficha técnica del producto con parámetro dinámico (:id)
+      // NUEVA RUTA: Dashboard de estadísticas (Punto Extra 87)
+      path: '/admin/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
+      meta: { requiresAuth: true, role: 'admin' } 
+    },
+    {
       path: '/admin/producto/:id',
       name: 'ProductDetail',
       component: ProductDetailView,
-      meta: { requiresAuth: true } // Protegido por login
+      meta: { requiresAuth: true, role: 'admin' }
     }
   ]
 })
 
-// GUARDIA DE NAVEGACIÓN (Protección de rutas)
+// GUARDIA DE NAVEGACIÓN (Protección avanzada de rutas)
 router.beforeEach((to, from, next) => {
-  // Instanciamos el store de autenticación aquí dentro
   const authStore = useAuthStore()
 
-  // Si la ruta requiere estar logueado y el usuario no lo está (usando isLogged)
+  // 1. Verificamos si la ruta requiere estar logueado (Requisito 75)
   if (to.meta.requiresAuth && !authStore.isLogged) {
-    next('/login') // ...lo mandamos al login
-  } else {
-    next() // ...si todo está bien, le dejamos pasar
+    next('/login') 
+  } 
+  // 2. Verificamos si el usuario tiene el ROL adecuado (Requisito 76)
+  else if (to.meta.role && authStore.userRole !== to.meta.role) {
+    // Si intenta entrar en admin sin ser admin, lo devolvemos a casa
+    next('/')
+  } 
+  else {
+    next() // Si cumple todo, adelante
   }
 })
 
