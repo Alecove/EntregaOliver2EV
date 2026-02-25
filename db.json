@@ -4,7 +4,7 @@
       "id": "1",
       "title": "Monitor Samsung 27 4K",
       "price": 299.99,
-      "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400",
+      "image": "https://cdn.shopify.com/s/files/1/0680/4219/5247/files/71g9W3T6XaL_6900d6bb-7fd7-4b5d-9d15-5be4e493c29c.jpg?v=1769458523&width=800&height=800&pad_color=ffffff",
       "completed": true,
       "description": "Monitor de 27 pulgadas con resolución 4K UHD. Panel IPS con colores vibrantes, ideal para diseño gráfico, edición de vídeo y gaming a 60Hz con un nivel de detalle espectacular."
     },
@@ -12,7 +12,7 @@
       "id": "2",
       "title": "Teclado Mecanico RGB",
       "price": 89.5,
-      "image": "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=400",
+      "image": "https://thumb.pccomponentes.com/w-530-530/articles/1084/10844836/1369-logitech-g515-tkl-teclado-mecanico-gaming-rgb-switch-gl-tactile-pbt-negro.jpg",
       "completed": true,
       "description": "Teclado mecánico con switches rojos (red) para una escritura rápida, fluida y silenciosa. Cuenta con iluminación RGB totalmente personalizable tecla a tecla."
     },
@@ -119,14 +119,6 @@
       "image": "https://m.media-amazon.com/images/I/71vXkQ3bCiL._AC_SX679_.jpg",
       "completed": true,
       "description": "Panel de luz LED compacto y regulable, perfecto para creadores de contenido. Ajusta el brillo y la temperatura de color desde luz cálida a fría para iluminar tus vídeos de forma profesional."
-    },
-    {
-      "id": "18",
-      "title": "Mando Xbox Series",
-      "price": 59.9,
-      "image": "https://images.unsplash.com/photo-1605901309584-818e25960a8f?w=400",
-      "completed": true,
-      "description": "El mando inalámbrico definitivo. Cuenta con un diseño ergonómico modernizado, gatillos con agarre texturizado antideslizante y botón Share. Compatible con consola, PC y móvil."
     }
   ]
 }

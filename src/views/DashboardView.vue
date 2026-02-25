@@ -1,110 +1,177 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useTaskStore } from '../stores/taskStore'
-import { Bar, Pie, Line } from 'vue-chartjs'
+// Importamos los gráficos
+import { Pie, Bar } from 'vue-chartjs'
 import { 
-  Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, 
-  LinearScale, ArcElement, PointElement, LineElement 
+  Chart as ChartJS, Title, Tooltip, Legend, ArcElement, 
+  CategoryScale, LinearScale, BarElement 
 } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement)
+// Registramos los componentes de los gráficos
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale, BarElement)
 
 const taskStore = useTaskStore()
 
-// --- LÓGICA DE KPIs (Requisito 89) ---
+onMounted(() => {
+  // Al entrar al dashboard, pedimos la lista COMPLETA para las estadísticas
+  taskStore.fetchAllForStats()
+})
+
+// --- CÁLCULOS DE ESTADÍSTICAS ---
 const totalProducts = computed(() => taskStore.allTasks.length)
-const totalValue = computed(() => taskStore.allTasks.reduce((acc, t) => acc + t.price, 0).toFixed(2))
-const avgPrice = computed(() => (Number(totalValue.value) / totalProducts.value || 0).toFixed(2))
 
-// --- DATOS PARA GRÁFICAS (Requisito 90) ---
+const inStock = computed(() => {
+  return taskStore.allTasks.filter(t => t.completed).length
+})
 
-// 1. Gráfica de Stock (Pie)
-const stockData = computed(() => ({
-  labels: ['En Stock', 'Agotado'],
-  datasets: [{
-    data: [
-      taskStore.allTasks.filter(t => t.completed).length,
-      taskStore.allTasks.filter(t => !t.completed).length
-    ],
-    backgroundColor: ['#4CAF50', '#F44336']
-  }]
-}))
+const outOfStock = computed(() => {
+  return totalProducts.value - inStock.value
+})
 
-// 2. Gráfica de Precios Top 5 (Bar)
-const topPricesData = computed(() => {
-  const sorted = [...taskStore.allTasks].sort((a, b) => b.price - a.price).slice(0, 5)
+const averagePrice = computed(() => {
+  if (totalProducts.value === 0) return 0
+  // Sumamos asegurando que el precio sea un número
+  const total = taskStore.allTasks.reduce((acc, p) => acc + (Number(p.price) || 0), 0)
+  return total / totalProducts.value
+})
+
+// --- DATOS PARA LOS GRÁFICOS ---
+// Gráfico de Queso (Stock)
+const stockChartData = computed(() => {
   return {
-    labels: sorted.map(t => t.title.substring(0, 10) + '...'),
+    labels: ['En Stock', 'Agotado'],
     datasets: [{
-      label: 'Precio (€)',
-      data: sorted.map(t => t.price),
-      backgroundColor: '#1976D2'
+      data: [inStock.value, outOfStock.value],
+      backgroundColor: ['#4CAF50', '#FF5252'], // Verde y Rojo vibrantes
+      borderWidth: 0
     }]
   }
 })
 
-// 3. Gráfica de Tendencia (Line - Comparativa simple)
-const lineData = computed(() => ({
-  labels: taskStore.allTasks.slice(0, 6).map(t => t.title.substring(0, 5)),
-  datasets: [{
-    label: 'Variación de precio en catálogo',
-    data: taskStore.allTasks.slice(0, 6).map(t => t.price),
-    borderColor: '#FFA000',
-    tension: 0.4
-  }]
-}))
+// Gráfico de Barras (Top 5 caros)
+const topPriceData = computed(() => {
+  // Ordenamos por precio descendente y cogemos los 5 primeros
+  const top = [...taskStore.allTasks]
+    .sort((a, b) => Number(b.price) - Number(a.price))
+    .slice(0, 5)
+    
+  return {
+    // Cortamos el título si es muy largo para que quepa bien
+    labels: top.map(p => p.title.substring(0, 12) + (p.title.length > 12 ? '...' : '')),
+    datasets: [{
+      label: 'Precio (€)',
+      data: top.map(p => Number(p.price)),
+      backgroundColor: '#2196F3', // Azul material
+      borderRadius: 8 // Barras redondeadas modernas
+    }]
+  }
+})
+
+// Opciones comunes para que los gráficos se adapten al contenedor
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: 'bottom' as const }
+  }
+}
 </script>
 
 <template>
-  <v-container class="py-8">
-    <h2 class="text-h4 font-weight-bold mb-6">Panel de Estadísticas</h2>
-
-    <v-row class="mb-8">
-      <v-col cols="12" md="4">
-        <v-card theme="dark" color="primary" elevation="4">
-          <v-card-text class="text-center">
-            <div class="text-h6">Total Productos</div>
-            <div class="text-h2 font-weight-black">{{ totalProducts }}</div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-card theme="dark" color="success" elevation="4">
-          <v-card-text class="text-center">
-            <div class="text-h6">Valor Inventario</div>
-            <div class="text-h2 font-weight-black">{{ totalValue }}€</div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-card theme="dark" color="orange-darken-2" elevation="4">
-          <v-card-text class="text-center">
-            <div class="text-h6">Precio Medio</div>
-            <div class="text-h2 font-weight-black">{{ avgPrice }}€</div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+  <v-container fluid class="pa-8 bg-grey-lighten-4 fill-height align-start">
+    
+    <div class="d-flex align-center mb-8">
+      <v-icon icon="mdi-chart-box-outline" size="40" color="primary" class="mr-3"></v-icon>
+      <div>
+        <h1 class="text-h3 font-weight-black text-grey-darken-3">Analítica de Inventario</h1>
+        <p class="text-subtitle-1 text-grey-darken-1">Visión general del estado de tu catálogo</p>
+      </div>
+    </div>
 
     <v-row>
-      <v-col cols="12" md="6">
-        <v-card class="pa-4" elevation="2">
-          <v-card-title>Distribución de Stock</v-card-title>
-          <div style="height: 300px;"><Pie :data="stockData" /></div>
+      <v-col cols="12" sm="6" md="3">
+        <v-card 
+          theme="dark" 
+          class="rounded-xl pa-4 elevation-4 d-flex flex-column justify-center" 
+          style="background: linear-gradient(135deg, #1976D2, #64B5F6); min-height: 140px;"
+        >
+            <div class="d-flex align-center mb-2 opacity-80">
+              <v-icon icon="mdi-database" class="mr-2"></v-icon>
+              <span class="text-overline font-weight-bold">Total Catálogo</span>
+            </div>
+            <div class="text-h2 font-weight-black pl-2">{{ totalProducts }}</div>
         </v-card>
       </v-col>
-      <v-col cols="12" md="6">
-        <v-card class="pa-4" elevation="2">
-          <v-card-title>Top 5 Productos más caros</v-card-title>
-          <div style="height: 300px;"><Bar :data="topPricesData" /></div>
+
+      <v-col cols="12" sm="6" md="3">
+        <v-card 
+          theme="dark" 
+          color="orange-darken-2" 
+          class="rounded-xl pa-4 elevation-4 d-flex flex-column justify-center"
+          style="min-height: 140px;"
+        >
+            <div class="d-flex align-center mb-2 opacity-80">
+              <v-icon icon="mdi-currency-eur" class="mr-2"></v-icon>
+              <span class="text-overline font-weight-bold">Precio Medio</span>
+            </div>
+            <div class="text-h2 font-weight-black pl-2">{{ averagePrice.toFixed(2) }}€</div>
         </v-card>
       </v-col>
-      <v-col cols="12" class="mt-6">
-        <v-card class="pa-4" elevation="2">
-          <v-card-title>Análisis de Precios</v-card-title>
-          <div style="height: 300px;"><Line :data="lineData" /></div>
+
+      <v-col cols="12" sm="6" md="3">
+        <v-card variant="flat" class="rounded-xl pa-4 border d-flex flex-column justify-center" style="min-height: 140px; background-color: white;">
+            <div class="d-flex align-center mb-2 text-success">
+              <v-icon icon="mdi-check-circle-outline" class="mr-2"></v-icon>
+              <span class="text-overline font-weight-bold">En Stock</span>
+            </div>
+            <div class="text-h2 font-weight-black text-success pl-2">{{ inStock }}</div>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" sm="6" md="3">
+        <v-card variant="flat" class="rounded-xl pa-4 border d-flex flex-column justify-center" style="min-height: 140px; background-color: white;">
+            <div class="d-flex align-center mb-2 text-error">
+              <v-icon icon="mdi-alert-circle-outline" class="mr-2"></v-icon>
+              <span class="text-overline font-weight-bold">Agotado</span>
+            </div>
+            <div class="text-h2 font-weight-black text-error pl-2">{{ outOfStock }}</div>
         </v-card>
       </v-col>
     </v-row>
+
+    <v-row class="mt-6">
+      <v-col cols="12" md="5">
+        <v-card class="rounded-xl pa-6 border-0 shadow-sm fill-height" elevation="2" style="background-color: white;">
+          <div class="d-flex align-center mb-6">
+            <v-icon icon="mdi-chart-pie" color="grey-darken-2" class="mr-2"></v-icon>
+            <h3 class="text-h6 font-weight-bold text-grey-darken-3 ma-0">Estado del Almacén</h3>
+          </div>
+          <div style="height: 300px;">
+            <Pie :data="stockChartData" :options="chartOptions" />
+          </div>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" md="7">
+        <v-card class="rounded-xl pa-6 border-0 shadow-sm fill-height" elevation="2" style="background-color: white;">
+          <div class="d-flex align-center mb-6">
+            <v-icon icon="mdi-chart-bar" color="grey-darken-2" class="mr-2"></v-icon>
+            <h3 class="text-h6 font-weight-bold text-grey-darken-3 ma-0">Top 5 Inversión por Producto</h3>
+          </div>
+          <div style="height: 300px;">
+            <Bar :data="topPriceData" :options="{ ...chartOptions, plugins: { legend: { display: false } } }" />
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+
   </v-container>
 </template>
+
+<style scoped>
+/* Un pequeño ajuste para que el fondo gris cubra toda la pantalla */
+.fill-height {
+  min-height: 100vh;
+}
+</style>
