@@ -33,7 +33,9 @@ const onSubmit = handleSubmit(async (values) => {
     completed: true // Ponemos que hay stock por defecto
   }
   
+  // Llamamos a la acción del Store que ahora sí está definida para TypeScript
   await taskStore.addTask(newProduct)
+  
   dialog.value = false // Cerramos la ventana
   resetForm() // Limpiamos el formulario
 })
@@ -47,17 +49,26 @@ const closeDialog = () => {
 
 <template>
   <div>
-    <v-btn color="success" prepend-icon="mdi-plus" @click="dialog = true" class="mb-4">
+    <v-btn 
+      color="success" 
+      prepend-icon="mdi-plus" 
+      size="large"
+      elevation="4"
+      rounded="lg"
+      class="mb-4 font-weight-bold"
+      @click="dialog = true"
+    >
       NUEVO PRODUCTO
     </v-btn>
 
-    <v-dialog v-model="dialog" max-width="600" persistent>
-      <v-card>
-        <v-card-title class="text-h5 bg-primary text-white pa-4">
+    <v-dialog v-model="dialog" max-width="600" persistent transition="dialog-top-transition">
+      <v-card rounded="xl">
+        <v-card-title class="text-h5 bg-primary text-white pa-5 font-weight-bold">
+          <v-icon start icon="mdi-plus-circle-outline" class="mr-2"></v-icon>
           Añadir Nuevo Producto
         </v-card-title>
         
-        <v-card-text class="pa-4 mt-2">
+        <v-card-text class="pa-6 mt-2">
           <form @submit.prevent="onSubmit">
             
             <v-text-field
@@ -65,25 +76,34 @@ const closeDialog = () => {
               label="Nombre del producto"
               :error-messages="titleError"
               variant="outlined"
-              class="mb-2"
+              class="mb-4"
+              rounded="lg"
             ></v-text-field>
 
-            <v-text-field
-              v-model="price"
-              label="Precio (€)"
-              type="number"
-              :error-messages="priceError"
-              variant="outlined"
-              class="mb-2"
-            ></v-text-field>
-
-            <v-text-field
-              v-model="image"
-              label="URL de la imagen (Ej: https://...)"
-              :error-messages="imageError"
-              variant="outlined"
-              class="mb-2"
-            ></v-text-field>
+            <v-row dense>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="price"
+                  label="Precio (€)"
+                  type="number"
+                  :error-messages="priceError"
+                  variant="outlined"
+                  class="mb-4"
+                  rounded="lg"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  v-model="image"
+                  label="URL de la imagen"
+                  :error-messages="imageError"
+                  variant="outlined"
+                  class="mb-4"
+                  rounded="lg"
+                  placeholder="https://..."
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
             <v-textarea
               v-model="description"
@@ -91,13 +111,30 @@ const closeDialog = () => {
               :error-messages="descError"
               variant="outlined"
               rows="3"
-              class="mb-2"
+              class="mb-4"
+              rounded="lg"
             ></v-textarea>
 
-            <v-card-actions class="px-0 pb-0 mt-4">
+            <v-card-actions class="px-0 pb-0 mt-2">
               <v-spacer></v-spacer>
-              <v-btn color="grey-darken-1" variant="text" @click="closeDialog">CANCELAR</v-btn>
-              <v-btn color="primary" variant="elevated" type="submit">GUARDAR PRODUCTO</v-btn>
+              <v-btn 
+                color="grey-darken-1" 
+                variant="text" 
+                rounded="pill"
+                class="px-6"
+                @click="closeDialog"
+              >
+                CANCELAR
+              </v-btn>
+              <v-btn 
+                color="primary" 
+                variant="flat" 
+                type="submit"
+                rounded="pill"
+                class="px-8 font-weight-bold"
+              >
+                GUARDAR PRODUCTO
+              </v-btn>
             </v-card-actions>
             
           </form>

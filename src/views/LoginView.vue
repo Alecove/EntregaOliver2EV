@@ -6,16 +6,15 @@ import { useAuthStore } from '@/stores/authStore'
 const authStore = useAuthStore()
 const router = useRouter()
 
-const email = ref('admin@admin.com')
-const password = ref('admin')
+// 👇 AQUÍ ESTÁ EL CAMBIO: Dejamos las comillas completamente vacías
+const email = ref('')
+const password = ref('')
 const error = ref(false)
 
 const handleLogin = () => {
-  // Llamamos a la función login de tu store
   const success = authStore.login(email.value, password.value)
-  
   if (success) {
-    router.push('/admin') // Si entra, vamos a gestión
+    router.push('/admin') 
   } else {
     error.value = true
   }
@@ -26,7 +25,7 @@ const handleLogin = () => {
   <v-container class="fill-height d-flex justify-center align-center">
     <v-card width="400" class="pa-8" elevation="10" rounded="xl">
       <div class="text-center mb-6">
-        <v-icon size="64" color="primary">mdi-lock-open-outline</v-icon>
+        <v-icon size="64" color="primary">mdi-lock-outline</v-icon>
         <h2 class="text-h4 font-weight-bold mt-2">Acceso</h2>
       </div>
 
@@ -37,6 +36,7 @@ const handleLogin = () => {
           variant="outlined"
           prepend-inner-icon="mdi-email"
           class="mb-2"
+          placeholder="ejemplo@correo.com"
         ></v-text-field>
 
         <v-text-field
@@ -45,14 +45,15 @@ const handleLogin = () => {
           type="password"
           variant="outlined"
           prepend-inner-icon="mdi-key"
-          class="mb-4"
+          class="mb-6"
+          placeholder="Escribe tu contraseña..."
         ></v-text-field>
 
         <v-alert v-if="error" type="error" variant="tonal" class="mb-4 text-caption">
-          Credenciales incorrectas. Prueba admin@admin.com / admin
+          Credenciales incorrectas.
         </v-alert>
 
-        <v-btn type="submit" color="primary" block size="x-large" rounded="pill">
+        <v-btn type="submit" color="primary" block size="x-large" rounded="pill" elevation="3">
           ENTRAR
         </v-btn>
       </v-form>

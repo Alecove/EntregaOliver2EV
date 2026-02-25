@@ -6,7 +6,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import AdminView from '../views/AdminView.vue'
 import ProductDetailView from '../views/ProductDetailView.vue'
-import DashboardView from '../views/DashboardView.vue' // Importamos el nuevo Dashboard
+import DashboardView from '../views/DashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,39 +25,39 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: AdminView,
-      meta: { requiresAuth: true, role: 'admin' } // Requisito 76: Protegido por rol
+      // 👇 AQUÍ ESTÁ LA CLAVE: Ya no exigimos "role: 'admin'"
+      meta: { requiresAuth: true } 
     },
     {
-      // NUEVA RUTA: Dashboard de estadísticas (Punto Extra 87)
       path: '/admin/dashboard',
       name: 'dashboard',
       component: DashboardView,
+      // El Dashboard SÍ sigue siendo solo para el administrador
       meta: { requiresAuth: true, role: 'admin' } 
     },
     {
       path: '/admin/producto/:id',
       name: 'ProductDetail',
       component: ProductDetailView,
-      meta: { requiresAuth: true, role: 'admin' }
+      meta: { requiresAuth: true }
     }
   ]
 })
 
-// GUARDIA DE NAVEGACIÓN (Protección avanzada de rutas)
+// GUARDIA DE NAVEGACIÓN
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // 1. Verificamos si la ruta requiere estar logueado (Requisito 75)
+  // 1. Si la ruta necesita login y no estás logueado -> Al login
   if (to.meta.requiresAuth && !authStore.isLogged) {
     next('/login') 
   } 
-  // 2. Verificamos si el usuario tiene el ROL adecuado (Requisito 76)
+  // 2. Si la ruta necesita un rol específico y NO lo tienes -> Te expulsa al inicio
   else if (to.meta.role && authStore.userRole !== to.meta.role) {
-    // Si intenta entrar en admin sin ser admin, lo devolvemos a casa
     next('/')
   } 
   else {
-    next() // Si cumple todo, adelante
+    next() 
   }
 })
 

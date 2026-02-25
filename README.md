@@ -1,45 +1,28 @@
-🛠️ Cómo arrancar el proyecto
-Si acabas de descargar el código, sigue estos comandos en tu terminal de VS Code:
+# 🚀 Tienda de Tecnología - Gestión de Inventario Pro
 
-Instalar dependencias (creará la carpeta node_modules):
+Proyecto de gestión de stock desarrollado con **Vue 3**, **Pinia** y **Vuetify**, totalmente preparado para producción con **Docker**.
 
-Bash
-npm install
-Lanzar el servidor de desarrollo:
+## 🛠️ Características Principales
 
-Bash
-npm run dev
-Abrir en el navegador:
-Ve a http://localhost:5173/.
+* **Panel de Estadísticas Dinámico**: Visualización en tiempo real de los **16 productos** del inventario, incluyendo precio medio y distribución de stock.
+* **Gestión de Stock Completa**: Catálogo con paginación inteligente de 6 productos por página para optimizar el rendimiento.
+* **Validación Robusta**: Formulario de creación de productos protegido con **Vee-Validate** y **Yup** para asegurar datos correctos.
+* **Interfaz Profesional**:
+    * Diálogos de confirmación personalizados para eliminación de productos (sin alertas nativas del navegador).
+    * Vista detallada de productos con descripción completa al hacer clic.
+* **Contenerización**: Despliegue listo con Docker y Nginx.
 
-🔑 Credenciales de Prueba
-Para probar el sistema de Roles, utiliza estos criterios en la pantalla de Login:
+## 🚀 Cómo ejecutar el proyecto
 
-TIP PARA EL PROFESOR:
+### Requisitos previos
+* Docker y Docker Compose
+* Node.js (opcional para desarrollo local)
 
-Para entrar como ADMIN: Usa cualquier email que contenga la palabra admin (ej: admin@test.com). Tendrás permisos para crear y borrar.
-
-Para entrar como EDITOR: Usa cualquier otro email (ej: user@test.com). Verás avisos de restricción de permisos y no podrás modificar datos.
-
-📁 Tecnologías utilizadas
-Framework: Vue 3 (Composition API).
-
-Estilos: Vuetify 3.
-
-Estado: Pinia.
-
-Validación: VeeValidate + Yup.
-
-API: Axios con JSONPlaceholder.
-
-## 🐳 Despliegue con Docker
-El proyecto está completamente dockerizado para facilitar su evaluación:
-
-1. **Construir el contenedor**: `docker compose build`
-2. **Arrancar la aplicación**: `docker compose up -d`
-3. **Acceso**: La aplicación estará disponible en `http://localhost:8080`
+### Despliegue con Docker
+Para levantar la aplicación y el servidor de datos de forma automática:
+```bash
+docker compose up --build
 
 
-
-Administrador admin@admin.com admin Gestión total y Estadísticas
- Usuario user@user.com  user Modo lectura (Solo vista)
+Administrador admin@gmail.com admin Gestión total y Estadísticas
+ Usuario correo y contraseña que sea Modo lectura (Solo vista)
