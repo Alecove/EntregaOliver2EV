@@ -24,5 +24,15 @@ Para levantar la aplicación y el servidor de datos de forma automática:
 docker compose up --build
 
 
+ 📦 Tecnologías utilizadas
+Frontend: Vue.js 3 (Composition API), Pinia (State Management), Vuetify (UI Component Library).
+
+Gráficos: Chart.js con Vue-Chartjs.
+
+Validación: Vee-Validate & Yup.
+
+Servidor de Datos: JSON Server.
+
 Administrador admin@gmail.com admin Gestión total y Estadísticas
  Usuario correo y contraseña que sea Modo lectura (Solo vista)
+
