@@ -111,14 +111,18 @@
       "image": "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=400",
       "completed": true,
       "description": "Sistema de altavoces multimedia 2.1 con subwoofer independiente y mando inalámbrico. Disfruta de un sonido envolvente, cristalino y unos graves profundos que harán vibrar tu escritorio."
+    }
+  ],
+  "categorias": [
+    {
+      "id": "1",
+      "name": "Monitores",
+      "description": "Pantallas de alta resolución"
     },
     {
-      "id": "17",
-      "title": "Foco LED Ci-Fotto",
-      "price": 55,
-      "image": "https://m.media-amazon.com/images/I/71vXkQ3bCiL._AC_SX679_.jpg",
-      "completed": true,
-      "description": "Panel de luz LED compacto y regulable, perfecto para creadores de contenido. Ajusta el brillo y la temperatura de color desde luz cálida a fría para iluminar tus vídeos de forma profesional."
+      "id": "2",
+      "name": "Periféricos",
+      "description": "Teclados, ratones y accesorios"
     }
   ]
 }
