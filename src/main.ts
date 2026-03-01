@@ -8,13 +8,15 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
-import '@mdi/font/css/materialdesignicons.css'
+import '@mdi/font/css/materialdesignicons.css' // Iconos
 
-import { i18n } from './i18n' // 👈 1. AÑADE ESTO: Importa tu diccionario
-
+// Creamos Vuetify y le decimos que empiece en modo claro
 const vuetify = createVuetify({
   components,
   directives,
+  theme: {
+    defaultTheme: 'light' 
+  }
 })
 
 const app = createApp(App)
@@ -22,6 +24,5 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
-app.use(i18n) // 👈 2. AÑADE ESTO: Dile a Vue que lo use
 
 app.mount('#app')
