@@ -1,72 +1,40 @@
 <script setup lang="ts">
-defineProps<{
-  product: any
-  isAdmin: boolean
-}>()
+// Definimos las props de forma sencilla, sin tipados estrictos complejos
+defineProps(['product', 'isAdmin'])
 
+// Eventos para avisar al padre (TasksList)
 defineEmits(['open-details', 'delete-product'])
 </script>
 
 <template>
-  <v-card class="mx-auto rounded-xl shadow-sm h-100 d-flex flex-column" elevation="2">
-    <v-img 
-      :src="product.image" 
-      height="220" 
-      cover 
-      class="align-end cursor-pointer"
-      @click="$emit('open-details', product)"
-    >
-      <v-chip
-        v-if="!product.completed"
-        color="error"
-        size="small"
-        variant="flat"
-        class="ma-2 font-weight-bold"
-        style="position: absolute; top: 0; right: 0;"
-      >
-        AGOTADO
-      </v-chip>
-    </v-img>
+  <v-card class="mb-4" elevation="2">
+    <v-img :src="product.image" height="200px" cover></v-img>
+    
+    <v-card-title class="font-weight-bold">{{ product.title }}</v-card-title>
+    
+    <v-card-subtitle class="text-h6 text-primary">{{ product.price }} €</v-card-subtitle>
+    
+    <v-card-text>
+      <div v-if="product.completed" style="color: green; font-weight: bold;">
+        En Stock
+      </div>
+      <div v-else style="color: red; font-weight: bold;">
+        Agotado temporalmente
+      </div>
+    </v-card-text>
 
-    <v-card-item class="pt-4">
-      <v-card-title class="text-h6 font-weight-bold text-grey-darken-3">
-        {{ product.title }}
-      </v-card-title>
-      <v-card-subtitle class="text-h5 font-weight-black text-primary pt-1">
-        {{ product.price }} €
-      </v-card-subtitle>
-    </v-card-item>
+    <v-divider></v-divider>
 
-    <v-spacer></v-spacer>
-
-    <v-divider class="mx-4 opacity-50"></v-divider>
-
-    <v-card-actions class="pa-4">
-      <v-btn
-        variant="tonal"
-        color="primary"
-        rounded="pill"
-        class="px-4 text-none"
-        @click="$emit('open-details', product)"
-      >
+    <v-card-actions>
+      <v-btn color="primary" @click="$emit('open-details', product)">
         Ver Detalles
       </v-btn>
       
       <v-spacer></v-spacer>
 
-      <v-btn
-        v-if="isAdmin"
-        icon="mdi-delete-outline"
-        variant="text"
-        color="error"
-        @click="$emit('delete-product', product)"
-      ></v-btn>
+      <v-btn v-if="isAdmin" color="error" @click="$emit('delete-product', product)">
+        Borrar
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
-
-<style scoped>
-.cursor-pointer {
-  cursor: pointer;
-}
-</style>

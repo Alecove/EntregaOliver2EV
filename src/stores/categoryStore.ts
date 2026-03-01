@@ -1,27 +1,43 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import axios from 'axios'
 
-export interface CategoryDto {
-  id: number
-  name: string
-}
+const API_URL = 'http://localhost:3000/categorias'
 
-export const useCategoryStore = defineStore('categories', () => {
-  const categoriesList = ref<CategoryDto[]>([
-    { id: 1, name: 'Trabajo' },
-    { id: 2, name: 'Personal' }
-  ])
+export const useCategoryStore = defineStore('categoryStore', {
+  state: () => ({
+    categories: [] as any[],
+    loading: false
+  }),
 
-  function addCategory(name: string) {
-    categoriesList.value.push({
-      id: Date.now(),
-      name: name
-    })
+  actions: {
+    async fetchCategories() {
+      this.loading = true
+      try {
+        const response = await axios.get(API_URL)
+        this.categories = response.data
+      } catch (error) {
+        console.error("Error al cargar categorías", error)
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async addCategory(category: any) {
+      try {
+        await axios.post(API_URL, category)
+        await this.fetchCategories() // Recargamos tras añadir
+      } catch (error) {
+        console.error("Error al añadir categoría", error)
+      }
+    },
+
+    async deleteCategory(id: any) {
+      try {
+        await axios.delete(`${API_URL}/${id}`)
+        await this.fetchCategories()
+      } catch (error) {
+        console.error("Error al borrar", error)
+      }
+    }
   }
-
-  function deleteCategory(id: number) {
-    categoriesList.value = categoriesList.value.filter((cat) => cat.id !== id)
-  }
-
-  return { categoriesList, addCategory, deleteCategory }
 })
